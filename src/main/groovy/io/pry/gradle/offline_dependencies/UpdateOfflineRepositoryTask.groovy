@@ -115,11 +115,15 @@ class UpdateOfflineRepositoryTask extends DefaultTask {
 
   // collect everything
   private Map<ModuleComponentIdentifier, Set<File>> collectRepositoryFiles(Set<Configuration> configurations) {
+    logger.info("----- collectRepositoryFiles -----")
     Set<ModuleComponentIdentifier> componentIds = []
     Map<ModuleComponentIdentifier, Set<File>> repositoryFiles = [:]
 
+    logger.info("--- configurations.size() = {}", configuration.size())
     for (configuration in configurations) {
+      logger.info("--- configuration.allDependencies.size() = {}", configuration.allDependencies.size())
       for (dependency in configuration.allDependencies) {
+        logger.info("--- dependency: {}", dependency)
         if (dependency instanceof ExternalModuleDependency) {
 
           // create a detached configuration for each dependency to get all declared versions of a dependency.
@@ -128,6 +132,7 @@ class UpdateOfflineRepositoryTask extends DefaultTask {
           // see:
           // * http://stackoverflow.com/questions/29374885/multiple-version-of-dependencies-in-gradle
           // * https://discuss.gradle.org/t/how-to-get-multiple-versions-of-the-same-library/7400
+	  logger.debug("dependency: '{}'", dependency)
           def cfg = project.configurations.detachedConfiguration([dependency].toArray(EMPTY_DEPENDENCIES_ARRAY))
 
           cfg.resolvedConfiguration.resolvedArtifacts.forEach({ artifact ->

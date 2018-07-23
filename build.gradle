@@ -11,9 +11,10 @@ buildscript {
 
 apply plugin: "com.gradle.plugin-publish"
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
 group = 'io.pry.gradle.offline_dependencies'
-version = '0.4'
+version = '0.999'
 description = 'Store project dependencies alongside your code for reproducible offline builds'
 
 repositories {
